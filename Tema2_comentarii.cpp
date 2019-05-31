@@ -251,7 +251,6 @@ void main() {
 
 
 	//testare copiere in lista ca la Drona - seminar 10 gr. 1047
-	//folosim functia listaPersoane (vezi la Drona cum se apeleaza):
 	//NodLista* cap = listaPersoane(rad);
 	//while (cap) {
 	//	afisarePersoana(cap->info);
