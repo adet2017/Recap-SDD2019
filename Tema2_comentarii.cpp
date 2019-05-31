@@ -163,6 +163,8 @@ Nod* inserareAVL(Nod* rad, Persoana p) {
 	} 
 }
 
+
+//la fel ca copiereInLista de la 1044 s11
 void copiereInLista(Nod* rad, NodLista** cap) {
 	if (rad) {
 		copiereInLista(rad->st, cap);
@@ -171,7 +173,7 @@ void copiereInLista(Nod* rad, NodLista** cap) {
 	}
 }
 
-
+//la fel ca si copiereDroneImpare la Drona - 1047 s10, sau copiereVacanteInLista la 1044 s10
 //NodLista* listaPersoane(Nod* rad) {
 //	NodLista*cap = NULL;
 //	if (rad) {
@@ -236,6 +238,7 @@ void main() {
 
 	afisareArbore(rad); 
 
+	//testare copiereInLista ca la Vacanta - seminar 11 gr. 1044 (fara functia a 2-a - listaPersoane):
 	printf("Afisare lista simplu inlantuita:\n");
 	NodLista* cap = NULL;
 	copiereInLista(rad, &cap);
@@ -245,6 +248,15 @@ void main() {
 		cap = cap->next;
 		free(temp);
 	}
+
+
+	//testare copiere in lista ca la Drona - seminar 10 gr. 1047
+	//folosim functia listaPersoane (vezi la Drona cum se apeleaza):
+	//NodLista* cap = listaPersoane(rad);
+	//while (cap) {
+	//	afisarePersoana(cap->info);
+	//	cap = cap->next;
+	//}
 
 	
 	stergereLista(cap);
