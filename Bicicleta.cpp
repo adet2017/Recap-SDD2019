@@ -146,19 +146,40 @@ Nod* stergereArbore(Nod* rad) {
 
 //extra (pe langa subiect):
 
-//fct de cautare Bicicleta in functie de statie(de la Angajat):
+
+//fct de cautare Bicicleta dupa nr statiei (de la Angajat):
 Bicicleta cautareBicicleta(Nod* rad, int nrCautat) { //fct recursiva
 	if (rad) {
 		if (rad->info.nrStatie == nrCautat) { //daca nr statiei este egal cu nr cautat
 			return rad->info; //returnam info din nod (bicicleta)
 		}
 		else if (nrCautat < rad->info.nrStatie) { //daca nr cautat este m mic decat nr statiei
-			cautareBicicleta(rad->st, nrCautat); //cautam in stanga radacinii
+			return cautareBicicleta(rad->st, nrCautat); //cautam in stanga radacinii - aici lipsea return si de asta afisa doar radacina!
 		}
 		else { //daca este m mare
-			cautareBicicleta(rad->dr, nrCautat); //cautam in dreapta radacinii
+			return cautareBicicleta(rad->dr, nrCautat); //cautam in dreapta radacinii
 		}
 	}
+}
+
+//fct de cautare Bicicleta dupa nr statiei - de la Vacanta 1044 s10
+Bicicleta cautareBicicletaDupaStatie(Nod* rad, int nrCautat) {
+	if (rad) {
+		if (rad->info.nrStatie > nrCautat) {
+			return cautareBicicletaDupaStatie(rad->st, nrCautat);
+		}
+		else if (rad->info.nrStatie < nrCautat) {
+			return cautareBicicletaDupaStatie(rad->dr, nrCautat);
+		}
+		else {
+			Bicicleta rezultat = creareBicicleta(rad->info.id, rad->info.durataUtilizare, rad->info.nrStatie, rad->info.nrUtilizari, rad->info.model);
+			return rezultat;
+		}
+	}
+	else {
+		Bicicleta rezultat = creareBicicleta(-1, -1, -1, -1, "");
+	}
+
 }
 
 
@@ -228,7 +249,7 @@ Bicicleta extragereBicicletaDinArbore(Nod** root, int nrCautat) {
 				*root = temp;
 			}
 			else {
-				Nod* temp = cautareMaxim((*root)->st); //de ce folosim fct cautare maxim? si de ce doar pe stanga
+				Nod* temp = cautareMaxim((*root)->st); //de ce folosim fct cautare maxim? si de ce doar pe stanga - pt ca fct de cautareMaxim e doar pe dreapta
 				Bicicleta aux = temp->info;
 				temp->info = (*root)->info;
 				(*root)->info = aux;
@@ -267,7 +288,7 @@ Nod* stergereNod(Nod* root, int idCautat) {
 				return temp;
 			}
 
-			Nod* temp = cautareMaxim(root->st); //de ce folosim cautare maxim? si de ce doar pe stanga
+			Nod* temp = cautareMaxim(root->st); //de ce folosim cautare maxim?
 			Bicicleta aux = root->info;
 			root->info = temp->info;
 			temp->info = aux;
@@ -290,9 +311,9 @@ Nod* stergereNod(Nod* root, int idCautat) {
 
 void main() {
 
-	//pct 1 - aici nu e nevoie sa initializam un arbore? -- nu 
-	Bicicleta b1 = creareBicicleta(3, 20.1, 5, 1, "Alexa"); //e o idee buna sa nu dam aici id-ul 1 ca sa putem insera in stanga
-
+	//pct 1 - aici nu e nevoie sa initializam un arbore
+	Bicicleta b1 = creareBicicleta(3, 20.1, 5, 1, "Scirocco"); //e o idee buna sa nu dam aici id-ul 1 ca sa putem insera in stanga
+	
 
 	//pct 2
 	Nod* arbore = creareNod(b1, NULL, NULL); //b1 este acum radacina -- aici se creeaza arborele
@@ -302,6 +323,7 @@ void main() {
 
 	//pct3
 	afisareArbore(arbore);
+
 
 	//testare stergere nod cu id-ul 5
 	/*stergereNod(arbore, 5);
@@ -319,25 +341,26 @@ void main() {
 	printf("\nAfisare nivel:\n");
 	afisareNivel(arbore, 2, 1); //nivelCurent trebuie sa fie mereu 1! (adica porneste de la rad?)
 
-	//testare extragere - nu merge daca pun 15 sau 22 - afiseaza pe ramura de else cu -1
+	//testare extragere
 	printf("\nNodul extras:\n");
-	//afisareBicicleta(extragereBicicleta(&arbore, 12));
-	afisareBicicleta(extragereBicicletaDinArbore(&arbore, 12));
+	/*afisareBicicleta(extragereBicicleta(&arbore, 12));*/ //aici daca pun 15 sau 22 da eroare de exec (adica nu merge la cele din stanga?). 5 si 12 merg
+	/*afisareBicicleta(extragereBicicletaDinArbore(&arbore, 12));*/ //nu merge daca pun 15 sau 22 - afiseaza pe ramura else cu -1
+	                                                                //cred ca nu extrage din stanga 
 
 	printf("\nAfisare arbore dupa extragere:\n");
 	afisareArbore(arbore);
 
 
 	//testare fct de cautare Bicicleta - da eroare de exec
-	printf("\nBicicleta de la statia nr. 5:\n");
-	/*afisareBicicleta(cautareBicicleta(arbore, 5));*/ //merge doar cu 5!!! 
-
+	printf("\nTestare cautareBicicleta dupa nr statiei:\n");
+	afisareBicicleta(cautareBicicleta(arbore, 15)); //nu merg 15 si 22 - nu da eroare de exec dar afiseaza toate valorile cu 0 sau null
+	/*afisareBicicleta(cautareBicicletaDupaStatie(arbore, 5));*/ //la fel - nu merg 15 si 22 (eroare de exec)
 
 
 	//testare fct numarare elemente din arbore
 	/*printf("\nNr. elemente: %d\n", nrElemente(arbore));*/ //aici nu merge - afiseaza un nr gresit, merge doar mai sus
 
 	//testare stergere
-	arbore = stergereArbore(arbore); //de ce scriem aici arbore =? pt ca functia de stergere returneaza Nod*
+	arbore = stergereArbore(arbore); //"arbore =" -pt ca functia de stergere returneaza Nod*
 
 }
