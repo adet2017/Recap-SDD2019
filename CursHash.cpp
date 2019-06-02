@@ -18,7 +18,7 @@ struct Curs {
 //};
 
 struct HashTable {
-	/*Nod** vector;*/ //cand facem inserare cu ajutorul listei simple
+	/*Nod** vector;*/ //cand facem inserare cu ajutorul listei simple - ca la seminar 6 gr. 1044 2018 - Curs 
 	Curs** vector; //cand facem inserare ca la seminar 2 ID 2019 - Muzeu
 	int dimensiune;
 };
