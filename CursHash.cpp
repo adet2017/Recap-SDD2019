@@ -45,7 +45,7 @@ HashTable initializareHashTable(int dimensiune) {
 	HashTable h;
 	h.dimensiune = dimensiune;
 	/*h.vector = (Nod**)malloc(sizeof(Nod*)*dimensiune);*/ //e tratat ca un float*
-	h.vector = (Curs**)malloc(sizeof(Curs*)*dimensiune); //ca la Muzeu
+	h.vector = (Curs**)malloc(sizeof(Curs*)*dimensiune); //aici am facut ca la Muzeu (seminar 2 ID 2019)
 	for (int i = 0; i < dimensiune; i++) {
 		h.vector[i] = NULL;
 	}
@@ -92,11 +92,11 @@ int inserareHashTable(HashTable h, Curs c) {
 				index = (index + 1) % h.dimensiune;
 			}
 			if (pozitie == index) {
-				return -1; //cod eroare pentru tabela full
+				return -1; //codul de eroare pentru tabela full
 			}
 			else {
-				h.vector[index] = (Curs*)malloc(sizeof(Curs)); //eroare compilare aici
-				*(h.vector[index]) = creareCurs(c.id, c.denumire, c.nrPrezenti); //nu ma lasa
+				h.vector[index] = (Curs*)malloc(sizeof(Curs)); 
+				*(h.vector[index]) = creareCurs(c.id, c.denumire, c.nrPrezenti); 
 				return index;
 			}
 		}
@@ -139,7 +139,7 @@ void afisareTabela(HashTable h) {
 }
 
 
-//fct de cautare - de la seminar 2 ID 2019 / am modificat in loc de denumire sa fie cu int ca la ZA
+//fct de cautare - de la seminar 2 ID 2019 / de vazut cum e cu int in loc de denumire - ca la ZA
 int cautaCurs(Curs c, HashTable h) {
 	if (h.dimensiune > 0) {
 		int pozitie = hashFunction(c, h);
@@ -255,7 +255,7 @@ Curs stergereByIndex(HashTable h, int index) {
 
 
 void main() {
-	HashTable tabela = initializareHashTable(5); //5 este dimensiunea tabelei
+	HashTable tabela = initializareHashTable(5); //5 este dimensiunea tabelei!
 
 	Curs c1 = creareCurs(1, "SDD", 35);
 	inserareHashTable (tabela, c1); //fara "=" !!!!!!!!!!!!!
@@ -264,7 +264,7 @@ void main() {
 	/*inserareTabela (tabela, creareCurs(6, "Java", 20));*/
 	/*inserareTabela (tabela, creareCurs(7, "PSI", 17));*/
 	/*inserareTabela (tabela, creareCurs(8, "DAM", 21));*/
-
+	//inseram maxim 5 elemente
 
 	/*afisareHashTable(tabela);*/
 	afisareTabela(tabela);
@@ -274,7 +274,7 @@ void main() {
 	/*afisareCurs(cautareCursDupaId(tabela, 3));*/
 
 	printf("\nTestare cautaCurs:\n");
-	int indexSDD = cautaCurs(c1, tabela);
+	int indexSDD = cautaCurs(c1, tabela); //il afiseaza pur si simplu pe c1? 
 	afisareCurs(*(tabela.vector[indexSDD]));
 
 
