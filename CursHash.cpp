@@ -239,7 +239,18 @@ HashTable stergereTabela(HashTable h) {
 }
 
 
-
+//stergere by Index ca la Cofetarie 
+Curs stergereByIndex(HashTable h, int index) {
+	if (h.dimensiune > 0 && h.vector[index] != NULL) {
+		Curs rezultat = *(h.vector[index]);
+		free(h.vector[index]);
+		h.vector[index] = NULL;
+		return rezultat;
+	}
+	else {
+		return creareCurs(-1, "", 0);
+	}
+}
 
 
 
