@@ -1,5 +1,8 @@
 #include <iostream>;
 
+//heap se foloseste la coada de prioritati
+
+
 struct Mesaj {
 	char* text;
 	int prioritate;
