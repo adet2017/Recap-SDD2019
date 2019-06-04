@@ -4,7 +4,7 @@
 #include<malloc.h>
 
 //HashTable - vector de liste
-//Linear probing (open addressing). De gasit chaining pe github Structuri 2018
+//Linear probing (open addressing) vs Chaining.
 
 
 struct Curs {
@@ -20,8 +20,8 @@ struct Curs {
 //};
 
 struct HashTable {
-	/*Nod** vector;*/ //cand facem inserare cu ajutorul listei simple - ca la seminar 6 gr. 1044 2018 - Curs 
-	Curs** vector; //cand facem inserare ca la seminar 2 ID 2019 - Muzeu
+	/*Nod** vector;*/ //cand facem inserare cu ajutorul listei simple - ca la seminar 6 gr. 1044 2018 - Curs (Chaining!)
+	Curs** vector; //cand facem inserare ca la seminar 2 ID 2019 - Muzeu (Linear probing!)
 	int dimensiune;
 };
 
@@ -71,7 +71,7 @@ HashTable initializareHashTable(int dimensiune) {
 //}
 
 //inserareHashTable ca la Curs (gr.1044 s06) - foloseste functia hashCode si inserarea la inceput in lista simpla!!
-//metoda chaining???
+//Mecanism de evitare a coliziunilor - CHAINING!
 //int inserareTabela(HashTable h, Curs c) { //tipul returnat int!!!
 //	if (h.vector) {
 //		int pozitie = hashCode(c.id, h); //c.id in loc de c (cum a facut la noi la seminar) pt ca functia hashCode primeste int si HashTable.
@@ -96,7 +96,7 @@ int hashFunction(Curs c, HashTable h) {
 
 
 //inserare HashTable ca la seminar 2 - ID 2019 - foloseste hashFunction
-//metoda linear probing
+//Mecanism de evitare a coliziunilor - LINEAR PROBING!
 int inserareHashTable(HashTable h, Curs c) { //Curs* daca folosim creareCurs ca la Za
 	if (h.dimensiune > 0) { //daca dimensiunea tabelei nu e 0
 		int pozitie = hashFunction(c, h); //si aici la fel, *c daca folosim "Curs* creareCurs" ca la Za
@@ -134,7 +134,7 @@ void afisareCurs(Curs c) {
 }
 
 
-//afisare HashTable ca la Curs - asemanatoare cu afisarea la lista
+//afisare HashTable ca la Curs (Chaining) - asemanatoare cu afisarea la lista
 //void afisareHashTable(HashTable h) {
 //	for (int i = 0; i < h.dimensiune; i++) { //doar acest for in plus fata de afisarea la lista simpla
 //		Nod* p = h.vector[i];
@@ -155,7 +155,7 @@ void afisareTabela(HashTable h) {
 }
 
 
-//fct de cautare - de la seminar 2 ID 2019 / de vazut cum e cu int in loc de denumire - ca la ZA
+//fct de cautare - de la seminar 2 ID 2019 (Linear probing) / de vazut cum e cu int in loc de denumire - ca la ZA
 int cautaCurs(Curs c, HashTable h) {
 	if (h.dimensiune > 0) {
 		int pozitie = hashFunction(c, h);
@@ -179,7 +179,7 @@ int cautaCurs(Curs c, HashTable h) {
 }
 
 
-//cautare in lista- functie ajutatoare pt cautare in tabela
+//cautare in lista- functie ajutatoare pt cautare in tabela 
 //Curs cautareCursInLIsta(Nod* cap, int id) {
 //	while (cap && cap->info.id != id) {
 //		cap = cap->next;
@@ -196,7 +196,7 @@ int cautaCurs(Curs c, HashTable h) {
 //}
 
 
-//fct cautare - de la Curs
+//fct cautare - de la Curs (Chaining)
 //Curs cautareCursDupaId(HashTable h, int id) {
 //	if (h.vector) {
 //		int pozitie = hashCode(id, h);
@@ -224,7 +224,7 @@ int cautaCurs(Curs c, HashTable h) {
 //}
 
 
-//stergere tabela - de la Curs
+//stergere tabela - de la Curs (Chaining)
 //void stergere(HashTable* h) {
 //	for (int i = 0; i < h->dimensiune; i++) {
 //		Nod* p = h->vector[i];
@@ -241,7 +241,7 @@ int cautaCurs(Curs c, HashTable h) {
 //}
 
 
-//stergere de la seminar 2 2019 - ID
+//stergere de la seminar 2 2019 - ID (Linear probing)
 HashTable stergereTabela(HashTable h) {
 	for (int i = 0; i < h.dimensiune; i++) {
 		if (h.vector[i]) {
