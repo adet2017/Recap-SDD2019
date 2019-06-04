@@ -4,6 +4,8 @@
 #include<malloc.h>
 
 //HashTable - vector de liste
+//Linear probing. De gasit chaining pe github Structuri 2018
+
 
 struct Curs {
 	int id;
@@ -64,8 +66,8 @@ HashTable initializareHashTable(int dimensiune) {
 
 
 //hashCode ca la Curs (gr.1044 s06) - se face inainte de inserareHashTable
-int hashCode(int id, HashTable h) {
-	return id % h.dimensiune;
+int hashCode(int id, HashTable h) { //in loc de HashTable merg si cu dimensiunea
+	return id % h.dimensiune; //calculam codul ASCII
 }
 
 //inserareHashTable ca la Curs (gr.1044 s06) - foloseste functia hashCode
@@ -97,9 +99,9 @@ int inserareHashTable(HashTable h, Curs c) { //Curs* daca folosim creareCurs ca 
 	if (h.dimensiune > 0) { //daca dimensiunea tabelei nu e 0
 		int pozitie = hashFunction(c, h); //si aici la fel, *c daca folosim "Curs* creareCurs" ca la Za
 		if (h.vector[pozitie]) {
-			int index = (pozitie + 1) % h.dimensiune;
+			int index = (pozitie + 1) % h.dimensiune; //index e un temp
 			while (h.vector[index] && index != pozitie) {
-				index = (index + 1) % h.dimensiune;
+				index = (index + 1) % h.dimensiune; 
 			}
 			if (pozitie == index) {
 				return -1; //codul de eroare pentru tabela full
@@ -119,7 +121,7 @@ int inserareHashTable(HashTable h, Curs c) { //Curs* daca folosim creareCurs ca 
 		}
 	}
 	else {
-		return -2;
+		return -2; //alt cod de eroare
 		}
 }
 
@@ -167,7 +169,7 @@ int cautaCurs(Curs c, HashTable h) {
 			}
 			index = (index + 1) % h.dimensiune;
 		}
-		return -1;
+		return -1; //eroare - nu exista in tabela
 	}
 	else {
 		return -2;
