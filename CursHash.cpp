@@ -4,7 +4,7 @@
 #include<malloc.h>
 
 //HashTable - vector de liste
-//Linear probing. De gasit chaining pe github Structuri 2018
+//Linear probing (open addressing). De gasit chaining pe github Structuri 2018
 
 
 struct Curs {
@@ -66,11 +66,12 @@ HashTable initializareHashTable(int dimensiune) {
 
 
 //hashCode ca la Curs (gr.1044 s06) - se face inainte de inserareHashTable
-int hashCode(int id, HashTable h) { //in loc de HashTable merg si cu dimensiunea
-	return id % h.dimensiune; //calculam codul ASCII
-}
+//int hashCode(int id, HashTable h) { //in loc de HashTable merg si cu dimensiunea
+//	return id % h.dimensiune; //calculam codul ASCII
+//}
 
-//inserareHashTable ca la Curs (gr.1044 s06) - foloseste functia hashCode
+//inserareHashTable ca la Curs (gr.1044 s06) - foloseste functia hashCode si inserarea la inceput in lista simpla!!
+//metoda chaining???
 //int inserareTabela(HashTable h, Curs c) { //tipul returnat int!!!
 //	if (h.vector) {
 //		int pozitie = hashCode(c.id, h); //c.id in loc de c (cum a facut la noi la seminar) pt ca functia hashCode primeste int si HashTable.
@@ -95,6 +96,7 @@ int hashFunction(Curs c, HashTable h) {
 
 
 //inserare HashTable ca la seminar 2 - ID 2019 - foloseste hashFunction
+//metoda linear probing
 int inserareHashTable(HashTable h, Curs c) { //Curs* daca folosim creareCurs ca la Za
 	if (h.dimensiune > 0) { //daca dimensiunea tabelei nu e 0
 		int pozitie = hashFunction(c, h); //si aici la fel, *c daca folosim "Curs* creareCurs" ca la Za
