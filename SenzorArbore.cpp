@@ -31,8 +31,8 @@ Senzor citireSenzorDinFisier(FILE* f) {
 	Senzor s;
 	fscanf(f, "%d", &s.idSenzor);
 
-	char buffer[20]; //1
-	fscanf(f, "%s", &s.producator); //2
+	char buffer[30]; //1
+	fscanf(f, "%s", buffer); //2 aici citim buffer!! nu producator
 	s.producator = (char*)malloc(sizeof(char)*(strlen(buffer) + 1)); //3
 	strcpy(s.producator, buffer); //4
 
@@ -89,6 +89,21 @@ void afisareArbore(Nod* rad) {
 		afisareArbore(rad->st);
 		afisareSenzor(rad->info);
 		afisareArbore(rad->dr);
+	}
+}
+
+
+//scriere in fisier!!
+void scriereSenzor(Senzor s, FILE* f) {
+	fprintf(f, "%d. %s - %d\n", s.idSenzor, s.producator, s.nrPini);
+}
+
+void scriereArbore(Nod* rad, const char* numeFisier) {
+	FILE* f = fopen(numeFisier, "w"); //de unde stie ce e File*?
+	if (rad) {
+		scriereArbore(rad->st, numeFisier);
+		scriereSenzor(rad->info, f);
+		scriereArbore(rad->dr, numeFisier);
 	}
 }
 
@@ -296,24 +311,27 @@ void main() {
 	Nod* arbore = NULL;
 
 	//citire din fisier - de testat (de facut un fisier si de adaugat senzori in el cu nr de zensori sus si fiecare articol pe un rand)
-	//FILE* f = fopen("fisier", "r"); //daca scriem aici w va scrie in fisier? cum se face scrierea in fisier?
-	//if (f) { //verificam daca fisierul a fost deschis
-	//	int nrSenzori = 0; //declaram o variabila cu ajutorul careia citim numarul de senzori din fisier
-	//	fscanf(f, "%d", &nrSenzori);
-	//	printf("\nNumarul senzorilor este: %d.\n", nrSenzori); //afisam pe ecran numarul persoanelor in capul listei (arborelui)
-	//	for (int i = 0; i < nrSenzori; i++) { //for ca sa putem citi mai multi senzori
-	//		arbore = inserareInArbore(arbore, citireSenzorDinFisier(f));
-	//	}
-	//}
-	//fclose(f); //inchidem fisierul
+	FILE* f = fopen("fisier.txt", "r"); 
+	if (f) { //verificam daca fisierul a fost deschis
+		int nrSenzori = 0; //declaram o variabila cu ajutorul careia citim numarul de senzori din fisier
+		fscanf(f, "%d", &nrSenzori);
+		printf("\n%d\n", nrSenzori); //afisam pe ecran numarul senzorilor in capul listei (arborelui)
+		for (int i = 0; i < nrSenzori; i++) { //for ca sa putem citi mai multi senzori
+			arbore = inserareInArbore(arbore, citireSenzorDinFisier(f));
+		}
+	}
+	fclose(f); //inchidem fisierul
 
 
-	arbore = inserareInArbore(arbore, creareSenzor(3, "IBM", 256));
+	/*arbore = inserareInArbore(arbore, creareSenzor(3, "IBM", 256));
 	arbore = inserareInArbore(arbore, creareSenzor(1, "Siemens", 120));
 	arbore = inserareInArbore(arbore, creareSenzor(5, "Intel", 50));
-	arbore = inserareInArbore(arbore, creareSenzor(4, "Samsung", 3));
+	arbore = inserareInArbore(arbore, creareSenzor(4, "Samsung", 3));*/
 
 	afisareArbore(arbore);
+
+	//testare scriere in fisier:
+	scriereArbore(arbore, "Senzor.txt"); //il scrie in fisier doar pe 4-Samsung
 
 	printf("\nAfisare senzori cu nr de pini mai mare decat 100:\n");
 	afisareArboreDupaNrPini(arbore, 100);
