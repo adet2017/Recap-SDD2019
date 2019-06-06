@@ -53,7 +53,7 @@ Senzor copiereSenzor(Senzor s) {
 //fct ajutatoare pt inserareInArbore
 Nod* creareNod(Senzor s, Nod* st, Nod* dr) {
 	Nod* nou = (Nod*)malloc(sizeof(Nod));
-	nou->info = s;/*copiereSenzor(s); *///de verificat daca merge si cu shallow copy! ca sa nu mai fac fct de copiere?
+	nou->info = copiereSenzor(s); //merge si cu shallow copy dar mai bine sa fac fct de copiere
 	nou->st = st; //ca la orice fct de creare!!!
 	nou->dr = dr;
 	return nou;
@@ -89,6 +89,17 @@ void afisareArbore(Nod* rad) {
 		afisareArbore(rad->st);
 		afisareSenzor(rad->info);
 		afisareArbore(rad->dr);
+	}
+}
+
+//afisare senzori care au nrPini mai mare decat o val
+void afisareArboreDupaNrPini(Nod* rad, int nr) {
+	if (rad) {
+		if (rad->info.nrPini > nr) {
+			afisareArboreDupaNrPini(rad->st, nr);
+			afisareSenzor(rad->info);
+			afisareArboreDupaNrPini(rad->dr, nr);
+		}
 	}
 }
 
@@ -301,6 +312,9 @@ void main() {
 	arbore = inserareInArbore(arbore, creareSenzor(4, "Samsung", 3));
 
 	afisareArbore(arbore);
+
+	printf("\nAfisare senzori cu nr de pini mai mare decat 100:\n");
+	afisareArboreDupaNrPini(arbore, 100);
 
 	//atentie nrElemente e bine sa fie apelat chiar aici dupa inserare in arbore, altfel e posibil sa nu numere bine, daca mai apelam alte functii inainte
 	printf("\nNumarul de senzori din arbore este: %d.\n", nrElemente(arbore)); 
