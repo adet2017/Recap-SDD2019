@@ -257,15 +257,15 @@ Senzor extragereSenzorDupaId(Nod** rad, int id) {
 }
 
 //functie care mareste nrPini cu 1 - la toti senzorii produsi de un anumit producator: 
-//void marireNrPini(Nod* rad, const char* producator) {
-//	if (rad) {
-//		marireNrPini(rad->st, producator);
-//		marireNrPini(rad->dr, producator);
-//		if (strcmp(rad->info.producator, producator) == 0) {
-//			rad->info.nrPini++;
-//		}
-//	}
-//}
+void marireNrPiniDupaProducator(Nod* rad, const char* producator) {
+	if (rad) {
+		marireNrPiniDupaProducator(rad->st, producator);
+		marireNrPiniDupaProducator(rad->dr, producator);
+		if (strcmp(rad->info.producator, producator) == 0) {
+			rad->info.nrPini++;
+		}
+	}
+}
 
 //functie care mareste nrPini cu 1 - la toti senzorii din arbore:
 void marireNrPini(Nod* rad) { //similara cu o functie de afisare
@@ -308,6 +308,7 @@ void main() {
 	//testare functie marire nrPini:
 	printf("\nnrPini marit cu 1:\n");
 	marireNrPini(arbore);
+	/*marireNrPiniDupaProducator(arbore, "Siemens");*/
 	afisareArbore(arbore);
 
 	//testare getInaltime arbore:
