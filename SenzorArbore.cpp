@@ -116,25 +116,6 @@ int nrElemente(Nod* rad) { // - asemanatoare cu afisarea (contor in plus si nu a
 }
 
 
-//calcul nivel maxim
-//functie ajutatoare pt getInaltime:
-int max(int a, int b) { //operatorul ternar (?) - ne punem o intrebare!
-	return a < b ? b : a; //are forma: expresie? true:false
-}                       //daca expresia este adevarata (a<b), il returnam pe b pt ca noua ne trebuie maximul si viceversa
-
-
-
-int getInaltime(Nod* rad) {
-	//functia returneaza partea care are inaltimea cea mai mare (dintre st sau dr) la care se adauga radacina:
-	if (rad) { 
-		return max(getInaltime(rad->st), getInaltime(rad->dr)) + 1; //+1 pt ca nu se numara radacina, si trebuie adaugata (la calculul inaltimii)
-	}
-	else { //daca nu avem arbore
-		return 0; //returnam inaltimea 0
-	}
-}
-
-
 //fct de afisare nivel de la seminar
 void afisareNivel(Nod* rad, int nivelDorit, int nivelCurent) { //nivelCurent trebuie sa fie mereu 1 cand apelam!!! 1 e cel mai de jos? 
 	if (rad) { //e exact ca afisarea arborelui doar ca se afiseaza un anumit nivel deci avem acest if/else in plus:
@@ -147,6 +128,47 @@ void afisareNivel(Nod* rad, int nivelDorit, int nivelCurent) { //nivelCurent tre
 		} //deci suntem pe un nivel (mai intai pe nivelul 1-cel mai de jos), daca nu e cel dorit, ne uitam ce are in stanga si ce are in dreapta (urcam un nivel mai sus cu +1?) si tot asa pt fiecare nod
 	}     //se afiseaza toate nodurile de pe nivelul dorit!! nu doar unul
 }
+
+//functie care mareste nrPini cu 1 - la toti senzorii din arbore:
+void marireNrPini(Nod* rad) { //similara cu o functie de afisare
+	if (rad) {
+		marireNrPini(rad->st);
+		marireNrPini(rad->dr);
+		rad->info.nrPini++; //marit cu 1
+		/*rad->info.nrPini += 10;*/ //marit cu 10
+	}
+}
+
+//functie care mareste nrPini cu 1 - la toti senzorii produsi de un anumit producator: 
+void marireNrPiniDupaProducator(Nod* rad, const char* producator) { //primeste param producator in plus
+	if (rad) {
+		marireNrPiniDupaProducator(rad->st, producator);
+		marireNrPiniDupaProducator(rad->dr, producator);
+		if (strcmp(rad->info.producator, producator) == 0) { //doar randul asta in plus daca marim in fct de un producator
+			rad->info.nrPini++;
+		}
+	}
+}
+
+
+
+
+//calcul nivel maxim
+//functie ajutatoare pt getInaltime:
+int max(int a, int b) { //operatorul ternar (?) - ne punem o intrebare!
+	return a < b ? b : a; //are forma: expresie? true:false
+}                       //daca expresia este adevarata (a<b), il returnam pe b pt ca noua ne trebuie maximul si viceversa
+
+int getInaltime(Nod* rad) {
+	//functia returneaza partea care are inaltimea cea mai mare (dintre st sau dr) la care se adauga radacina:
+	if (rad) { 
+		return max(getInaltime(rad->st), getInaltime(rad->dr)) + 1; //+1 pt ca nu se numara radacina, si trebuie adaugata (la calculul inaltimii)
+	}
+	else { //daca nu avem arbore
+		return 0; //returnam inaltimea 0
+	}
+}
+
 
 
 //fct de cautare dupa un criteriu
@@ -165,19 +187,6 @@ Senzor cautareSenzor(Nod* rad, int id) {
 }
 
 
-//stergere arbore obisnuita
-Nod* stergereArbore(Nod* rad) { //tipul returnat Nod*! si returnam NULL
-	if (rad) {
-		stergereArbore(rad->st);
-		stergereArbore(rad->dr);
-		free(rad->info.producator);
-		free(rad);
-		return NULL;
-	}
-}
-
-
-
 
 //stergere dupa un criteriu
 //nivel maxim al arborelui - fct folosita doar la extragere dupa un criteriu si stergere dupa un criteriu
@@ -194,7 +203,6 @@ Nod* cautareMaxim(Nod* rad) {
 		return NULL;
 	}
 }
-
 
 Nod* stergereNodDupaId(Nod* rad, int id) {
 	if (rad) { //3 if-uri!!!!
@@ -228,7 +236,6 @@ Nod* stergereNodDupaId(Nod* rad, int id) {
 		}
 	} //aici nu da eroare de exec in situatia in care nu avem arbore deci nu e nevoie de acel else de la extragere dupa un criteriu
 }
-
 
 //extragere dupa un criteriu
 Senzor extragereSenzorDupaId(Nod** rad, int id) {
@@ -267,26 +274,21 @@ Senzor extragereSenzorDupaId(Nod** rad, int id) {
 	}
 }
 
-//functie care mareste nrPini cu 1 - la toti senzorii din arbore:
-void marireNrPini(Nod* rad) { //similara cu o functie de afisare
+//stergere arbore obisnuita
+Nod* stergereArbore(Nod* rad) { //tipul returnat Nod*! si returnam NULL
 	if (rad) {
-		marireNrPini(rad->st);
-		marireNrPini(rad->dr);
-		rad->info.nrPini++; //marit cu 1
-		/*rad->info.nrPini += 10;*/ //marit cu 10
+		stergereArbore(rad->st);
+		stergereArbore(rad->dr);
+		free(rad->info.producator);
+		free(rad);
+		return NULL;
 	}
 }
 
-//functie care mareste nrPini cu 1 - la toti senzorii produsi de un anumit producator: 
-void marireNrPiniDupaProducator(Nod* rad, const char* producator) { //primeste param producator in plus
-	if (rad) {
-		marireNrPiniDupaProducator(rad->st, producator);
-		marireNrPiniDupaProducator(rad->dr, producator);
-		if (strcmp(rad->info.producator, producator) == 0) { //doar randul asta in plus daca marim in fct de un producator
-			rad->info.nrPini++;
-		}
-	}
-}
+
+
+
+
 
 
 void main() {
