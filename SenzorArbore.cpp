@@ -256,17 +256,6 @@ Senzor extragereSenzorDupaId(Nod** rad, int id) {
 	}
 }
 
-//functie care mareste nrPini cu 1 - la toti senzorii produsi de un anumit producator: 
-void marireNrPiniDupaProducator(Nod* rad, const char* producator) {
-	if (rad) {
-		marireNrPiniDupaProducator(rad->st, producator);
-		marireNrPiniDupaProducator(rad->dr, producator);
-		if (strcmp(rad->info.producator, producator) == 0) {
-			rad->info.nrPini++;
-		}
-	}
-}
-
 //functie care mareste nrPini cu 1 - la toti senzorii din arbore:
 void marireNrPini(Nod* rad) { //similara cu o functie de afisare
 	if (rad) {
@@ -274,6 +263,17 @@ void marireNrPini(Nod* rad) { //similara cu o functie de afisare
 		marireNrPini(rad->dr);
 		rad->info.nrPini++; //marit cu 1
 		/*rad->info.nrPini += 10;*/ //marit cu 10
+	}
+}
+
+//functie care mareste nrPini cu 1 - la toti senzorii produsi de un anumit producator: 
+void marireNrPiniDupaProducator(Nod* rad, const char* producator) { //primeste param producator in plus
+	if (rad) {
+		marireNrPiniDupaProducator(rad->st, producator);
+		marireNrPiniDupaProducator(rad->dr, producator);
+		if (strcmp(rad->info.producator, producator) == 0) { //doar randul asta in plus daca marim in fct de un producator
+			rad->info.nrPini++;
+		}
 	}
 }
 
