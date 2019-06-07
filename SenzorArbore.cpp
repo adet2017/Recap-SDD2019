@@ -11,7 +11,6 @@ struct Senzor {
 	int nrPini;
 };
 
-
 struct Nod {
 	Senzor info;
 	Nod* dr;
@@ -59,7 +58,6 @@ Nod* creareNod(Senzor s, Nod* st, Nod* dr) {
 	return nou;
 }
 
-
 //inserare in arbore
 Nod* inserareInArbore(Nod* rad, Senzor s) {
 	if (rad) {
@@ -81,9 +79,7 @@ void afisareSenzor(Senzor s) {
 	printf("%d. Producator: %s, Nr. pini: %d.\n", s.idSenzor, s.producator, s.nrPini);
 }
 
-//afisare arbore in inordine (SRD)
-//preordine - RSD
-//postordine - SDR
+//afisare arbore in inordine (SRD), preordine e RSD iar postordine - SDR
 void afisareArbore(Nod* rad) {
 	if (rad) {
 		afisareArbore(rad->st);
@@ -92,14 +88,13 @@ void afisareArbore(Nod* rad) {
 	}
 }
 
-
 //scriere in fisier!!
 void scriereSenzor(Senzor s, FILE* f) {
 	fprintf(f, "%d. %s - %d\n", s.idSenzor, s.producator, s.nrPini);
 }
 
 void scriereArbore(Nod* rad, const char* numeFisier) {
-	FILE* f = fopen(numeFisier, "w"); //de unde stie ce e File*?
+	FILE* f = fopen(numeFisier, "w"); //deschidem fisierul!! w = write. de unde stie ce e File*?
 	if (rad) {
 		scriereArbore(rad->st, numeFisier);
 		scriereSenzor(rad->info, f);
@@ -118,7 +113,6 @@ void afisareArboreDupaNrPini(Nod* rad, int nr) {
 	}
 }
 
-
 //fct de numarare elemente din arbore - recursivitate!!
 int nrElemente(Nod* rad) { // - asemanatoare cu afisarea (contor in plus si nu are rad->info)
 	static int contor = 0; //fara STATIC nu merge!!!! afiseaza 1 in loc de 4!
@@ -129,7 +123,6 @@ int nrElemente(Nod* rad) { // - asemanatoare cu afisarea (contor in plus si nu a
 	}
 	return contor;
 }
-
 
 //fct de afisare nivel de la seminar
 void afisareNivel(Nod* rad, int nivelDorit, int nivelCurent) { //nivelCurent trebuie sa fie mereu 1 cand apelam!!! 1 e cel mai de jos? 
@@ -167,7 +160,6 @@ void marireNrPiniDupaProducator(Nod* rad, const char* producator) { //primeste p
 
 
 
-
 //calcul nivel maxim
 //functie ajutatoare pt getInaltime:
 int max(int a, int b) { //operatorul ternar (?) - ne punem o intrebare!
@@ -200,8 +192,6 @@ Senzor cautareSenzor(Nod* rad, int id) {
 		}
 	}
 }
-
-
 
 //stergere dupa un criteriu
 //nivel maxim al arborelui - fct folosita doar la extragere dupa un criteriu si stergere dupa un criteriu
@@ -302,16 +292,12 @@ Nod* stergereArbore(Nod* rad) { //tipul returnat Nod*! si returnam NULL
 
 
 
-
-
-
-
 void main() {
 
 	Nod* arbore = NULL;
 
 	//citire din fisier - de testat (de facut un fisier si de adaugat senzori in el cu nr de zensori sus si fiecare articol pe un rand)
-	FILE* f = fopen("fisier.txt", "r"); 
+	FILE* f = fopen("senzor.txt", "r"); // r = read
 	if (f) { //verificam daca fisierul a fost deschis
 		int nrSenzori = 0; //declaram o variabila cu ajutorul careia citim numarul de senzori din fisier
 		fscanf(f, "%d", &nrSenzori);
@@ -331,7 +317,7 @@ void main() {
 	afisareArbore(arbore);
 
 	//testare scriere in fisier:
-	scriereArbore(arbore, "Senzor.txt"); //il scrie in fisier doar pe 4-Samsung
+	scriereArbore(arbore, "fisier.txt"); //il scrie in fisier doar pe 4-Samsung. La Farmacie LDI in schimb merge
 
 	printf("\nAfisare senzori cu nr de pini mai mare decat 100:\n");
 	afisareArboreDupaNrPini(arbore, 100);
@@ -340,7 +326,7 @@ void main() {
 	printf("\nNumarul de senzori din arbore este: %d.\n", nrElemente(arbore)); 
 
 	//testare functie marire nrPini:
-	printf("\nnrPini marit cu 1:\n");
+	printf("\nNumarul de pini marit cu 1:\n");
 	marireNrPini(arbore);
 	/*marireNrPiniDupaProducator(arbore, "Siemens");*/
 	afisareArbore(arbore);

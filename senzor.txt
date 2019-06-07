@@ -1,0 +1,13 @@
+4
+3
+IBM
+256
+1
+Siemens
+120
+5
+Intel
+50
+4
+Samsung
+3
