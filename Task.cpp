@@ -171,7 +171,7 @@ void main() {
 	//pct 3
 	char** v = vectorIngineri(lista, "10/06/2019");
 	for (int i = 0; i < nrIngineri(lista, "10/06/2019"); i++) {
-		//aici nu putem afisa cu fct afisareTask pt ca aici afisam doar inginerii, nu un task intreg!
+		//aici nu putem afisa cu fct afisareTask pt ca afisam doar inginerii, nu un task intreg!
 		printf("\nIngineri asignati pe task-uri la data de 10/06/2019: %s\n", v[i]); 
 	}
 
