@@ -169,50 +169,68 @@ Moneda* cautareMoneda(HashTable h, int soldMinim) { //trebuie si aici Moneda*
 }
 
 
-//stergere in functie de un criteriu
-void stergereBySold(HashTable* h, int soldCautat) { //HashTable* !
+//stergere in functie de un criteriu - mai ok facuta de Mihai:
+void stergereBySold(HashTable * h, int soldCautat) { //HashTable* !
 	for (int i = 0; i < h->dim; i++) {
 		Nod* p = h->vector[i];
-		while (p && p->info.sold == soldCautat) {
-			free(p->info.denumire);
-			free(p->info.emitent);
-			Nod* temp = p;
-			p = p->next;
-			free(temp);
+		while (p) {
+			if (p->info.sold == soldCautat) {
+				free(p->info.denumire);
+				free(p->info.emitent);
+				Nod* temp = p;
+				p = p->next;
+				free(temp);
+			}
+			else {
+				p = p->next;
+			}
 		}
 	}
-	free(h->vector);
-	h->vector = NULL;
-	h->dim = 0;
 }
+
+
+//void stergereBySold(HashTable* h, int soldCautat) { //HashTable* !
+//	for (int i = 0; i < h->dim; i++) {
+//		Nod* p = h->vector[i];
+//		while (p && p->info.sold == soldCautat) {
+//			free(p->info.denumire);
+//			free(p->info.emitent);
+//			Nod* temp = p;
+//			p = p->next;
+//			free(temp);
+//		}
+//	}
+//	free(h->vector);
+//	h->vector = NULL;
+//	h->dim = 0;
+//}
 
 //suma soldului
 int soldCumulat(HashTable h) {
+	int suma = 0; //int suma trebuie sa fie in afara for!!!
 	for (int i = 0; i < h.dim; i++) {
 		Nod* p = h.vector[i];
-		int suma = 0;
 		while (p) {
 			suma += p->info.sold;
 			p = p->next;
 		}
-		return suma;
 	}
+	return suma;
 }
 
 //numarare monede care au soldul mai mare decat o val 
 int nrMonede(int nr, HashTable h) {
+	int contor = 0;
 	for (int i = 0; i < h.dim; i++) {
 		Nod* p = h.vector[i];
-		int contor = 0;
 		while (p) {
 			if (p->info.sold > nr) {
 				contor++;
 			}
 			p = p->next;
 		}
-		return contor;
 	}
-
+	return contor;
 }
 
 
@@ -242,7 +260,8 @@ void main() {
 	//	}
 	//	p = p->next;
 	//}
-	////afisam vectorul - aici trebuie contorul si de asta scriem codul de mai sus!
+	////afisam vectorul - aici trebuie contorul si de asta scriem codul de mai sus! 
+	//sau putem sa facem o fct de numarare pe care o apelam in loc de contor(vezi la fct de conversie de la LSI Masina - pct 4)
 	//for (int i = 0; i < contor; i++) { //i < contor la fel cum e si conditia din al 2-lea while din functie
 	//	afisareMoneda(v[i]); //afisam pe rand monedele din vector
 	//}
@@ -254,9 +273,9 @@ void main() {
 
 
 
-	/*stergereBySold(&tabela, 1);
+	stergereBySold(&tabela, 1);
 
 	printf("\nAfisare dupa stergere:\n");
-	afisareHashTable(tabela);*/
+	afisareHashTable(tabela);
 
 }

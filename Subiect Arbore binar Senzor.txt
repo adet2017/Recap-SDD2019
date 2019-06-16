@@ -1,0 +1,10 @@
+1. Sa se scrie functia care creeza un arbore binar de cautare. 
+(fara citire din fisier, fara citire de la tastatura - in main am chemat fct de inserare nod de mai multe ori. 
+Contine un obiect Senzor(idSenzor,producator,tipSenzor,nrPini) 2pct
+2. sa se scrie fct care traverseaza arborele si afiseaza la ecran tot continutul 
+3. sa se scrie fct care calculeaza cate elemente sunt in arbore . 
+rezultatul sa fie afisat la ecran. fct sa nu aiba I/O... (returneaza un nr pe care il listam in main) 1pct.
+4.fct care sterge din arbore un element pe o conditie 1pct
+5. fct care mareste cu 1 nr de pini pentru senzorii care indeplinesc o conditie (acelasi producator) 2pct
+6. fct care returneaza un vector cu toti senzorii de un anumit tip. rezultatul este afisat 2pct
+7. (era 4 asta cred dar l-am sarit) sa se calculeze nivelul maxim al arborelui
