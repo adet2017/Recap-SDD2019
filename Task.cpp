@@ -168,7 +168,7 @@ void main() {
 	printf("\nNr de task-uri la care nu s-a inceput lucrul este %d.\n", nrTaskuri(lista, "nou", "deschis"));
 
 
-	//pct 3
+	//pct 3 - nu merge
 	char** v = vectorIngineri(lista, "10/06/2019");
 	for (int i = 0; i < nrIngineri(lista, "10/06/2019"); i++) {
 		//aici nu putem afisa cu fct afisareTask pt ca afisam doar inginerii, nu un task intreg!
